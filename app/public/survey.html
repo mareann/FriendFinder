@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>FriendFinder</title>
+
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <!-- Font Awesome Glyphicons -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+  <!-- Chosen -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+<style>
+  form { 
+    font-size: 1em; 
+  }
+  form p {
+    padding: .5em;
+    font-size: 2em;
+    color: red;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>Survey Questions</h2>
+    <hr>
+  <form>
+    <h3><strong>About You</strong></h3>
+    <div class="col-xs-6">
+      <h4>Name (Required)</h4>
+      <input type="text" id="name" class="form-control" required>
+      <h4>Link to Photo Image (Required)</h4>
+      <input type="text" id="photo" class="form-control" required>
+    </div>
+  </form>
+    <br><br>
+  <div class="col-xs-12">
+
+  <h2>Tell us more about you!</h2>
+  <form id="q1">
+    <p>You prefer indoor activities.</p>
+    <label class="radio-inline">
+      <input id="11" type="radio" name="optradio" value=1>Disagree a Lot
+    </label>
+    <label class="radio-inline">
+      <input id="12" type="radio" name="optradio" value=2>Slightly disagree
+    </label>
+    <label class="radio-inline">
+      <input id="13" type="radio" name="optradio" value=3>Depends
+    </label>
+    <label class="radio-inline">
+      <input id="14" type="radio" name="optradio" value=4>Agree
+    </label>
+    <label class="radio-inline">
+      <input id="15" type="radio" name="optradio" value=5>Definately Agree
+    </label> 
+  </form>
+    <form id="q2">
+    <p>You have a great sense of humour!</p>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" value=1>Disagree a Lot
+    </label>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" value=2>Slightly disagree
+    </label>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" value=3>Depends
+    </label>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" value=4>Agree
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="optradio" value=5>Definately Agree
+    </label> 
+  </form>
+  <br><br>
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary submit">Submit</button>
+  </div>
+ 
+    <hr>
+  <!--     <script src="survey.js" type="text/javascript"></script> -->
+    <footer class="footer">
+      <div class="container col-xs-10">
+        <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/mareann/friendfinder.git">GitHub Repo</a></p>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
+ <script type="text/javascript"> 
+
+
+    $(".submit").on("click", function(event) {
+      event.preventDefault();
+
+
+var friendsArray = [
+  {
+    name: "Ron",
+    photo: "../images/pic1.jpg",
+    scores:["1","1","2","3","4","5","5","4","3","2"]
+  }
+];
+
+        //var friendData = new Friend(
+ /*       var friendData = {
+          name: $("#name").val(),
+          photo: $("#photo").val(),
+          scores: [
+            "2",
+            "3",
+            "3",
+            "4",
+            "1",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]};
+        
+      friendsArray.push(friendData);
+*/
+      friendData = {
+          name: $("#name").val(),
+          photo: $("#photo").val(),
+          scores: [
+            $("#q1").val(),
+            "3",
+            "3",
+            "4",
+            "1",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]};
+function getResponse(id) {
+var form = document.getElementById(id); 
+for(var i = 0; i < form.optradio.length; i++)    
+ {          
+  if(form.optradio[i].checked)          
+      var selectedValue = form.optradio[i].value;
+  }
+  
+  console.log("select "+selectedValue)
+
+  return (selectedValue)
+
+}     
+ 
+ friendData.scores[0]=getResponse("q1");
+ friendData.scores[1]=getResponse("q2");
+//console.log("q1 "+$("#q1").value);
+console.log("friendData "+friendData.name+" photo "+friendData.photo)
+console.log(" q1 "+friendData.scores[0]+" q2 "+friendData.scores[1])
+      console.log("# of friends "+friendsArray.length)
+      console.log("friendsArray "+friendsArray)
+
+      $.post("/api/friends", friendData,
+        function(data) {
+//console.log("friend data "+data);
+
+alert("your match is???")
+
+          // Clear the form when submitting
+          $("#name").val("");
+          $("#photo").val("");
+          //$("#scores").val("");
+        });
+    });
+
+  </script>
+
+

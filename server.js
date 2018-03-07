@@ -29,7 +29,8 @@ app.use(bodyParser.json());
 
 require("./app/routing/apiRoutes")(app);
 require("./app/routing/htmlRoutes")(app);
-
+//var friends = require("./app/data/friends.js");
+debugger;
 // =============================================================================
 // LISTENER
 // The below code effectively "starts" our server

@@ -7,8 +7,8 @@
 
 var friendsArray = [
   {
-    friendName: "Ron",
-    friendPhoto: "../images/pic1.jpg",
+    name: "Ron",
+    photo: "../images/pic1.jpg",
     scores:["1","1","2","3","4","5","5","4","3","2"]
   }
 ];

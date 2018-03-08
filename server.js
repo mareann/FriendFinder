@@ -5,6 +5,7 @@
 
 var express = require("express");
 var bodyParser = require("body-parser");
+var path = require('path');
 var friendsArray = require("./app/data/friends");
 // ==============================================================================
 // EXPRESS CONFIGURATION
@@ -18,8 +19,12 @@ var app = express();
 var PORT = process.env.PORT || 8080;
 
 // Sets up the Express app to handle data parsing
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/app/public'));
+app.use(bodyParser.text());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // ================================================================================
 // ROUTER
@@ -27,8 +32,8 @@ app.use(bodyParser.json());
 // These routes give our server a "map" of how to respond when users visit or request data from various URLs.
 // ================================================================================
 
-require("./app/routing/apiRoutes")(app);
-require("./app/routing/htmlRoutes")(app);
+require("./app/routing/apiRoutes.js")(app);
+require("./app/routing/htmlRoutes.js")(app);
 //var friends = require("./app/data/friends.js");
 debugger;
 // =============================================================================

@@ -43,26 +43,35 @@
       <input type="text" id="photo" class="form-control" required>
     </div>
   </form>
+  <form id="qGender">
+      <label class="radio-inline">
+      <input type="radio" name="gender" value=1>Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="gender" value=2>Girl
+    </label>
+  </form>
     <br><br>
   <div class="col-xs-12">
 
   <h2>Tell us more about you!</h2>
+
   <form id="q1">
     <p>You prefer indoor activities.</p>
     <label class="radio-inline">
-      <input id="11" type="radio" name="optradio" value=1>Disagree a Lot
+      <input type="radio" name="optradio" value=1>Disagree a Lot
     </label>
     <label class="radio-inline">
-      <input id="12" type="radio" name="optradio" value=2>Slightly disagree
+      <input type="radio" name="optradio" value=2>Slightly disagree
     </label>
     <label class="radio-inline">
-      <input id="13" type="radio" name="optradio" value=3>Depends
+      <input type="radio" name="optradio" value=3>Depends
     </label>
     <label class="radio-inline">
-      <input id="14" type="radio" name="optradio" value=4>Agree
+      <input type="radio" name="optradio" value=4>Agree
     </label>
     <label class="radio-inline">
-      <input id="15" type="radio" name="optradio" value=5>Definately Agree
+      <input type="radio" name="optradio" value=5>Definately Agree
     </label> 
   </form>
     <form id="q2">
@@ -110,7 +119,9 @@ var friendsArray = [
   {
     name: "Ron",
     photo: "../images/pic1.jpg",
-    scores:["1","1","2","3","4","5","5","4","3","2"]
+    gender: 1,
+    scores:[1,1,2,3,4,5,5,4,3,2]
+    //scores:["1","1","2","3","4","5","5","4","3","2"]
   }
 ];
 
@@ -133,11 +144,12 @@ var friendsArray = [
         
       friendsArray.push(friendData);
 */
-      friendData = {
-          name: $("#name").val(),
-          photo: $("#photo").val(),
+    var  friendData = {
+          name: "mar",
+          photo: "pic1",
+          gender: 2,
           scores: [
-            $("#q1").val(),
+            "2",
             "3",
             "3",
             "4",
@@ -148,6 +160,8 @@ var friendsArray = [
             "4",
             "5"
           ]};
+
+//friendsArray.push(friendData);
 function getResponse(id) {
 var form = document.getElementById(id); 
 for(var i = 0; i < form.optradio.length; i++)    
@@ -160,26 +174,58 @@ for(var i = 0; i < form.optradio.length; i++)
 
   return (selectedValue)
 
-}     
- 
+}
+function getGender(id) {
+var form = document.getElementById(id); 
+for(var i = 0; i < form.gender.length; i++)    
+ {          
+  if(form.gender[i].checked)          
+      var selectedValue = form.gender[i].value;
+  }
+  
+  console.log("select "+selectedValue)
+
+  return (selectedValue)
+
+}
+var tmp = getGender("qGender")
+ friendData.gender = tmp;
+ friendData.name = $("#name").val().trim();
+ friendData.photo = $("#photo").val().trim();
+
  friendData.scores[0]=getResponse("q1");
  friendData.scores[1]=getResponse("q2");
+ friendData.scores[2]=2;
+ friendData.scores[3]=3;
+ friendData.scores[4]=4;
+ friendData.scores[5]=5;
+ friendData.scores[6]=1;
+ friendData.scores[7]=2;
+ friendData.scores[8]=3;
+ friendData.scores[9]=4;
+
+friendsArray.push(friendData);
+
 //console.log("q1 "+$("#q1").value);
-console.log("friendData "+friendData.name+" photo "+friendData.photo)
+console.log("friendData name "+friendData.name+" photo "+friendData.photo+"gender "+tmp)
 console.log(" q1 "+friendData.scores[0]+" q2 "+friendData.scores[1])
       console.log("# of friends "+friendsArray.length)
       console.log("friendsArray "+friendsArray)
 
-      $.post("/api/friends", friendData,
+        // Grab the URL of the website
+        var currentURL = window.location.origin;
+
+      $.post("/api/friends", friendData, //function(req, res) {
         function(data) {
-//console.log("friend data "+data);
+console.log("post /api/friends friend data "+data);
 
 alert("your match is???")
-
+    //friendsArray.push(req.body);
           // Clear the form when submitting
           $("#name").val("");
           $("#photo").val("");
           //$("#scores").val("");
+           // res.json(true);
         });
     });
 

@@ -6,7 +6,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require('path');
-var friendsArray = require("./app/data/friends");
+var friendsArray = require("./app/data/friends.js");
 // ==============================================================================
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server

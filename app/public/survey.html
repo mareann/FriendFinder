@@ -386,7 +386,7 @@ console.log("survey: # of friends new surveys "+friendsArray.length)
         function(data) {
 console.log("survey: post /api/friends friend data "+data.name);
           // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-console.log("survey: match is "+data.name);
+console.log("survey: match is "+data.name," picture "+data.photo);
           $("#matchName").text(data.name);
           $('#matchImg').attr("src", data.photo);
 

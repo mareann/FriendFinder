@@ -34,8 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 require("./app/routing/apiRoutes.js")(app);
 require("./app/routing/htmlRoutes.js")(app);
-//var friends = require("./app/data/friends.js");
-debugger;
+
 // =============================================================================
 // LISTENER
 // The below code effectively "starts" our server

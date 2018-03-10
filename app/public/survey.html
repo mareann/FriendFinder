@@ -48,7 +48,7 @@
     width: 75%;
     height: 75%;
   }
-</style>
+</style>z
 </head>
 
 <body>
@@ -324,6 +324,9 @@
           gender: 0,
           scores: [0,0,0,0,0,0,0,0,0,0]};
       
+
+
+    // get radio button user response
     function getResponse(id) 
     {
       var form = document.getElementById(id); 
@@ -332,10 +335,10 @@
         if(form.optradio[i].checked)          
           var selectedValue = form.optradio[i].value;
        }
-      //console.log("survey: selectedValue "+selectedValue)
       return (selectedValue)
     }
 
+    // get radio button gender user response
     function getGender(id) {
       var form = document.getElementById(id); 
       for(var i = 0; i < form.gender.length; i++)    
@@ -345,55 +348,73 @@
        }
       return (selectedValue)
     }
+    // Form validation
+    function validateForm() {
+      var isValid = true;
+      friendData.gender = getGender("qGender");
+      friendData.name = $("#name").val().trim();
+      friendData.photo = $("#photo").val().trim();
 
-    friendData.gender = getGender("qGender");
-    friendData.name = $("#name").val().trim();
-    friendData.photo = $("#photo").val().trim();
+      if (friendData.gender == "" || friendData.name == "" || friendData.photo == "")  
+        isValid = false;
 
-    for (var f=1;f<11;f++)
-     friendData.scores[f-1]=getResponse("q"+f);
+      for (var f=1;f<11;f++) {
+        if ((friendData.scores[f-1]=getResponse("q"+f)) === "")
+          isValid = false;
+      }
+      return(isValid)
+    }
 
-    friendsArray.push(friendData);
+      // If all required fields are filled
+    if (validateForm() == true)
+    {
 
-    //console.log("survey: friendData name "+friendData.name+" photo "+friendData.photo+" gender "+friendData.gender)
+      friendData.gender = getGender("qGender");
+      friendData.name = $("#name").val().trim();
+      friendData.photo = $("#photo").val().trim();
+      
 
-    //console.log("survey: # of friends new surveys "+friendsArray.length)
+      for (var f=1;f<11;f++)
+       friendData.scores[f-1]=getResponse("q"+f);
+
+      friendsArray.push(friendData);
+
+      //console.log("survey: friendData name "+friendData.name+" photo "+friendData.photo+" gender "+friendData.gender)
      
     // Grab the URL of the website
-    var currentURL = window.location.origin;
+      var currentURL = window.location.origin;
 
-    $.post(currentURL + "/api/friends", friendData, //function(req, res) {
-        function(data) {
-          console.log("survey: post /api/friends friend data "+data.name);
-          // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-          //console.log("survey: match is "+data.name," picture "+data.photo);
-          $("#matchName").text(data.name);
-          $('#matchImg').attr("src", data.photo);
-          // $('#matchImg').attr("style: width","75%");
-          // $('#matchImg').attr("style: height","75%");
-          // Show the modal with the best match
-          $("#resultsModal").modal('toggle');
+      $.post(currentURL + "/api/friends", friendData, 
+          function(data) {
+            console.log("survey: post /api/friends friend data "+data.name);
+            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+            //console.log("survey: match is "+data.name," picture "+data.photo);
+            $("#matchName").text(data.name);
+            $('#matchImg').attr("src", data.photo);
 
-       /* });
-    }
-    else
-    {
-      alert("Please fill out all fields before submitting!");
-    }
-      
-      return false;*/
+            // Show the modal with the best match
+            $("#resultsModal").modal('toggle');
 
-          // Clear the form when submitting
-          $("#name").val("");
-          $("#photo").val("");
-          //$("#scores").val("");
-  
-        }); //end post(currentURL + "/api/friends"
-    }); // end ".submit").on("click"
+          //});
+
+            // Clear the form when submitting
+            $("#name").val("");
+            $("#photo").val("");
+            //$("#scores").val("");
+    
+          }); //end post(currentURL + "/api/friends"
+
+       } // end validateForm
+      else
+      {
+        alert("Please fill out all fields before submitting!");
+      }
+      return false;
+  }); // end ".submit").on("click"
 /*    
  $.post(currentURL + "/api/clear", function(req, res) {
           console.log("survey: post /api/clear")
         });*/
-  </script>
+</script>
 
 
